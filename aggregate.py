@@ -26,6 +26,11 @@ def count_and_replace(df, column):
     return nan_count
 
 
+def get_mean(df, column, nan_count_list):
+    mean = 0
+    if df[column] != 0:
+        ''
+
 def plot_nan_frequencies(df, column_names, nan_count_list):
     nan_percents = []
     for col in range(len(nan_count_list)):
@@ -61,21 +66,27 @@ def read_well_logs():
         else:
             print('LOWER')
 
+        # Get nan counts and means
         nan_count_list = []
+        mean_list = []
         for column in column_names:
             nan_count = count_and_replace(upper_lower[zone], column)
             nan_count_list.append(nan_count)
+            mean = get_mean(upper_lower[zone], column, nan_count_list)
+            mean_list.append(mean)
     
+
         # print the content
         print('Content:')
         print(upper_lower[zone])
 
         for idx in range(len(column_names)):
-            if nan_count_list[idx] != 0:
-                print(column_names[idx], '--- nan count:', nan_count_list[idx])
+            mean = ''
+            print(column_names[idx], '--- nan count:', nan_count_list[idx])
+
         
         print()
-        print(upper_lower[zone].describe().T)
+        # print(upper_lower[zone].describe().T) # Not completely accurate, factors in 0 values.
         print(path)
         plot_nan_frequencies(upper_lower[zone], column_names, nan_count_list)
         print()
