@@ -1,8 +1,17 @@
 import pandas as pd
+pd.options.mode.chained_assignment = None
 import numpy as np
 import matplotlib.pyplot as plt
 import os
 import glob
+
+
+def split_upper_lower(df, column_names):
+    upper_lower = [df, 0, 0]
+    zone = column_names[12]
+    upper_lower[1] = df[df[zone] == 'Upper']
+    upper_lower[2] = df[df[zone] == 'Lower']
+    return upper_lower
 
 
 # Code modified from https://thispointer.com/count-number-of-zeros-in-pandas-dataframe-column/
@@ -41,23 +50,37 @@ def read_well_logs():
 
     # Code copied from https://www.geeksforgeeks.org/iterating-over-rows-and-columns-in-pandas-dataframe/
     column_names = df.columns.values.tolist()
-    nan_count_list = []
-    for column in column_names:
-        nan_count = count_and_replace(df, column)
-        nan_count_list.append(nan_count)
-    
-    # print the content
-    print('Content:')
-    print(df)
+    upper_lower = split_upper_lower(df, column_names)
 
-    for idx in range(len(column_names)):
-        if nan_count_list[idx] != 0:
-            print(column_names[idx], '--- nan count:', nan_count_list[idx])
+    for zone in range(len(upper_lower)):
+        print('***************************************************')
+        if zone == 0:
+            print('TOTAL')
+        elif zone == 1:
+            print('UPPER')
+        else:
+            print('LOWER')
+
+        nan_count_list = []
+        for column in column_names:
+            nan_count = count_and_replace(upper_lower[zone], column)
+            nan_count_list.append(nan_count)
+    
+        # print the content
+        print('Content:')
+        print(upper_lower[zone])
+
+        for idx in range(len(column_names)):
+            if nan_count_list[idx] != 0:
+                print(column_names[idx], '--- nan count:', nan_count_list[idx])
         
-    print()
-    print(df.describe().T)
-    print(path)
-    plot_nan_frequencies(df, column_names, nan_count_list)    
+        print()
+        print(upper_lower[zone].describe().T)
+        print(path)
+        plot_nan_frequencies(upper_lower[zone], column_names, nan_count_list)
+        print()
+        print() 
+        print()   
 
 
 def main():
