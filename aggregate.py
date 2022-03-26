@@ -5,7 +5,6 @@ import os
 import glob
 
 
-
 # Code modified from https://thispointer.com/count-number-of-zeros-in-pandas-dataframe-column/
 # Replace -999 with 0 and count how many times it appears per column
 def count_and_replace(df, column):
@@ -18,13 +17,25 @@ def count_and_replace(df, column):
     return nan_count
 
 
-def read_well_logs():
-    # Code modified from https://www.geeksforgeeks.org/how-to-read-all-csv-files-in-a-folder-in-pandas/
+def plot_nan_frequencies(df, column_names, nan_count_list):
+    nan_percents = []
+    for col in range(len(nan_count_list)):
+        nan_percents.append(nan_count_list[col]/len(df))
+        
+    plt.bar(column_names, nan_percents, color = 'darkorange', align = 'center') 
+    plt.subplots_adjust(left=0.0, bottom=0.0, right=3.2, top=1.2, wspace=0.2, hspace=0.2)
+    plt.title('Data Completeness') 
+    plt.ylabel('Percentage of Missing Records') 
+    plt.xlabel('Feature')  
+    plt.show()
 
-    # use glob to get all the csv files 
-    # in the folder
-    path = os.getcwd()
-    joined_csv = glob.glob(os.path.join(path, "*.csv"))
+
+def read_well_logs():
+
+    # Code modified from https://www.geeksforgeeks.org/how-to-read-all-csv-files-in-a-folder-in-pandas/
+    # use glob to get all the csv files in the folder
+    path = str(os.getcwd()) + '/Well_Log'
+    joined_csv = glob.glob(os.path.join(path, "WP*.csv"))
 
     df = pd.concat(map(pd.read_csv, joined_csv), ignore_index=True)
 
@@ -34,8 +45,6 @@ def read_well_logs():
     for column in column_names:
         nan_count = count_and_replace(df, column)
         nan_count_list.append(nan_count)
-
-
     
     # print the content
     print('Content:')
@@ -46,16 +55,9 @@ def read_well_logs():
             print(column_names[idx], '--- nan count:', nan_count_list[idx])
         
     print()
-    print()
     print(df.describe().T)
     print(path)
-    #df.to_csv(r'C:\Users\benja\Documents\2022 PGE Hackathon\Longhorn_Energy_Club\Well_Log/df.csv')
-
-    (sum(nan_count_list)/len(df)).plot(kind = 'bar')
-    plt.subplots_adjust(left=0.0, bottom=0.0, right=3.2, top=1.2, wspace=0.2, hspace=0.2) # plot formatting
-    plt.xlabel('Feature'); plt.ylabel('Percentage of Missing Records'); plt.title('Data Completeness')
-    plt.ylim([0,1.0])
-    plt.show()
+    plot_nan_frequencies(df, column_names, nan_count_list)    
 
 
 def main():
