@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import os
 import glob
 
+# Replaces -999 values with NaN
 def make_nan(df):
     column_names = df.columns.values.tolist() # List of column names
     for column in column_names:
@@ -47,27 +48,10 @@ def main():
     production_csv_path = str(os.getcwd()) + '\Well_Head_and_Completion_Aggprod.csv'  
     production_df = pd.read_csv(production_csv_path)
 
-
-    # ISSSUE RIGHT AROUND HERE*******************
-    #********************* ISSUE HERE ***************
-    # Issue:
-    # when printing production_df (and later concating it), there is a random
-    # column (column 4) that is filled with NaN values for some reason. We don't
-    # know where they come from or how to get rid of them. It also shifted all 
-    # of our headers by one column
-    print(production_df) 
-    # ISSUE ABOVE*****************
-    # ISSUE ABOVE***************
-
-
-
-
     # Combine the dataframes
     combined_df = pd.concat([production_df, mean_df.set_index(production_df.index)], axis=1)
-    #print(combined_df)
+    print(combined_df)
     
-
-
 
 
 if __name__ == '__main__':
