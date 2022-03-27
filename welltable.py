@@ -90,7 +90,7 @@ def main():
     print(monthly_prod)
 
     combined_df.insert(4, 'Mean Monthly Prod', monthly_prod, True)
-    #print(combined_df)    
+    print(combined_df)    
     #print(combined_df.describe().T)
 
     combined_df_upper.insert(4, 'Mean Monthly Prod', monthly_prod, True)
@@ -100,6 +100,8 @@ def main():
     combined_df_lower.insert(4, 'Mean Monthly Prod', monthly_prod, True)
     print(combined_df_lower)    
     #print(combined_df_lower.describe().T)
+
+    combined_df.to_csv(os.getcwd())
 
     sns.pairplot(combined_df_upper, vars = ['X(ft)', 'Y(ft)', 'Elevation Kelly Bushing (ft)', 'Mean Monthly Prod', 'Aggregate Production', 'MD(ft)', 'PORO(v/v)', 'Permeability(mD)', 'RHOB(g/cm3)', 'DTS(us/ft)', 'DT(us/ft)', 'PEF(B/E)', 'RD(OHMM)', 'RS(OHMM)', 'ROP', 'DENC(g/cm3)', 'NPHI(v/v)'], markers = 'o')
     sns.pairplot(combined_df_lower, vars = ['X(ft)', 'Y(ft)', 'Elevation Kelly Bushing (ft)', 'Mean Monthly Prod', 'Aggregate Production', 'MD(ft)', 'PORO(v/v)', 'Permeability(mD)', 'RHOB(g/cm3)', 'DTS(us/ft)', 'DT(us/ft)', 'PEF(B/E)', 'RD(OHMM)', 'RS(OHMM)', 'ROP', 'DENC(g/cm3)', 'NPHI(v/v)'], markers = 'o')
