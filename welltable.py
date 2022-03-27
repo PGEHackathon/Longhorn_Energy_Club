@@ -77,9 +77,8 @@ def main():
     print(combined_df_lower)    
     print(combined_df_lower.describe().T)
 
-    sns.pairplot(combined_df_upper, vars = combined_df_upper.columns, markers = 'o')
-    sns.pairplot(combined_df_lower, vars = combined_df_upper.columns, markers = 'o')
-
+    sns.pairplot(combined_df_upper, vars = ['X(ft)', 'Y(ft)', 'Elevation Kelly Bushing (ft)', 'Aggregate Production', 'MD(ft)', 'PORO(v/v)', 'Permeability(mD)', 'RHOB(g/cm3)', 'DTS(us/ft)', 'DT(us/ft)', 'PEF(B/E)', 'RD(OHMM)', 'RS(OHMM)', 'ROP', 'DENC(g/cm3)', 'NPHI(v/v)'], markers = 'o')
+    sns.pairplot(combined_df_lower, vars = ['X(ft)', 'Y(ft)', 'Elevation Kelly Bushing (ft)', 'Aggregate Production', 'MD(ft)', 'PORO(v/v)', 'Permeability(mD)', 'RHOB(g/cm3)', 'DTS(us/ft)', 'DT(us/ft)', 'PEF(B/E)', 'RD(OHMM)', 'RS(OHMM)', 'ROP', 'DENC(g/cm3)', 'NPHI(v/v)'], markers = 'o')
 
 
 if __name__ == '__main__':
