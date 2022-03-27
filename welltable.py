@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 import os
 import glob
 
@@ -50,8 +51,9 @@ def main():
 
     # Combine the dataframes
     combined_df = pd.concat([production_df, mean_df.set_index(production_df.index)], axis=1)
-    print(combined_df)
-    
+    print(combined_df)    
+
+    print(combined_df.describe().T)
 
 
 if __name__ == '__main__':
